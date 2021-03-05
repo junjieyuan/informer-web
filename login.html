@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>Informer 登录</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="login">
+        <v-app>
+
+            <v-navigation-drawer v-model="drawer" app>
+                <v-list>
+                    <v-subheader>Informer</v-subheader>
+                    <v-list-item-group>
+                        <v-list-item href="/">
+                            首页
+                        </v-list-item>
+                        <v-list-item href="/libraries.html">
+                            文献馆
+                        </v-list-item>
+                        <v-list-item href="/login.html">
+                            登录
+                        </v-list-item>
+                        <v-list-item href="/logout.html">
+                            注销
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-navigation-drawer>
+
+            <v-app-bar app>
+                <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+                <v-toolbar-title>
+                    {{ title }}
+                </v-toolbar-title>
+            </v-app-bar>
+
+            <v-main>
+                <v-container>
+                    <v-form>
+                        <v-text-field v-model="username" label="Username" required></v-text-field>
+                        <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
+                        <v-btn @click="login">Log in</v-btn>
+                    </v-form>
+                </v-container>
+            </v-main>
+
+        </v-app>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+<script>
+    const login = new Vue(
+        {
+            el: '#login',
+            vuetify: new Vuetify(),
+            data: {
+                drawer: null,
+                title: '登录',
+                username: '',
+                password: '',
+                loginField: ['username', 'password']
+            },
+            methods: {
+                login: function () {
+                    const json_login_info = JSON.stringify(this.$data, this.loginField);
+                    axios.post('https://informer.junjie.pro/apis/login', json_login_info).then(function (response) {
+                        if (response.status === 200) {
+                            window.location.href = "https://informer.junjie.pro/libraries.html"
+                        }
+                    })
+                }
+            }
+        }
+    )
+</script>
+
+</html>

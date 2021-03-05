@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <title>Informer 圣堂</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="home">
+        <v-app>
+
+            <v-navigation-drawer v-model="drawer" app>
+                <v-list>
+                    <v-subheader>Informer</v-subheader>
+                    <v-list-item-group>
+                        <v-list-item href="/">
+                            首页
+                        </v-list-item>
+                        <v-list-item href="/libraries.html">
+                            文献馆
+                        </v-list-item>
+                        <v-list-item href="/login.html">
+                            登录
+                        </v-list-item>
+                        <v-list-item href="/logout.html">
+                            注销
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-navigation-drawer>
+
+            <v-app-bar app>
+                <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+                <v-toolbar-title>
+                    {{ title }}
+                </v-toolbar-title>
+            </v-app-bar>
+
+            <v-main>
+                <v-container>
+                    <p>
+                        <a href="https://junjie.pro/informer">Informer</a> 是一个不先进的密码管理器，这是它的网页前端。
+                    </p>
+                    <p>
+                        如要开始使用，请先<a href="/login.html">登录</a>。
+                    </p>
+                </v-container>
+            </v-main>
+
+        </v-app>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+<script>
+    const home = new Vue(
+        {
+            el: '#home',
+            vuetify: new Vuetify(),
+            data: {
+                drawer: null,
+                title: '圣堂',
+            }
+        }
+    )
+</script>
+
+</html>
