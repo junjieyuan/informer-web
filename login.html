@@ -26,7 +26,7 @@
                         <v-list-item href="/libraries.html">
                             文献馆
                         </v-list-item>
-                        <v-list-item href="/login.html">
+                        <v-list-item href="/login.html" disabled>
                             登录
                         </v-list-item>
                         <v-list-item href="/logout.html">
@@ -86,6 +86,8 @@
             }
         }
     )
+
+    login.$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme: dark)').matches
 </script>
 
 </html>

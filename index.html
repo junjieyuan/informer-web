@@ -20,7 +20,7 @@
                 <v-list>
                     <v-subheader>Informer</v-subheader>
                     <v-list-item-group>
-                        <v-list-item href="/">
+                        <v-list-item href="/" disabled>
                             首页
                         </v-list-item>
                         <v-list-item href="/libraries.html">
@@ -74,6 +74,8 @@
             }
         }
     )
+
+    home.$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme: dark)').matches
 </script>
 
 </html>
