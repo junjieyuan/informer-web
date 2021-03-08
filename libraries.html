@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Informer 文献馆</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="libraries">
+        <v-app>
+
+            <v-navigation-drawer v-model="drawer" app>
+                <v-list>
+                    <v-subheader>Informer</v-subheader>
+                    <v-list-item-group>
+                        <v-list-item href="/">
+                            首页
+                        </v-list-item>
+                        <v-list-item href="/libraries.html" disabled>
+                            文献馆
+                        </v-list-item>
+                        <v-list-item href="/login.html">
+                            登录
+                        </v-list-item>
+                        <v-list-item href="/logout.html">
+                            注销
+                        </v-list-item>
+                    </v-list-item-group>
+                </v-list>
+            </v-navigation-drawer>
+
+            <v-app-bar app>
+                <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+                <v-toolbar-title>
+                    {{ title }}
+                </v-toolbar-title>
+            </v-app-bar>
+
+            <v-main>
+                <v-container>
+                    <v-text-field type="password" v-model="key" label="Key"
+                        placeholder="Type your master password here"></v-text-field>
+                    <v-btn @click="decryptSecure">Dencrypt</v-btn>
+                    <v-data-table :headers="tableHeaders" :items="secures"></v-data-table>
+                </v-container>
+            </v-main>
+
+        </v-app>
+    </div>
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+    axios.interceptors.response.use(
+        response => {
+            return response
+        },
+        error => {
+            if (error.response.status === 403) {
+                alert('未登录，将跳转到登录页面')
+                window.location.href = "/login.html"
+            }
+            return error
+        }
+    )
+
+    const libraries = new Vue(
+        {
+            el: '#libraries',
+            vuetify: new Vuetify(),
+            data: {
+                drawer: null,
+                title: '文献馆',
+                key: '',
+                tableHeaders: [
+                    {
+                        text: 'ID',
+                        align: 'start',
+                        sortable: false,
+                        value: 'id'
+                    },
+                    {
+                        text: 'Platform',
+                        sortable: false,
+                        value: 'platform'
+                    },
+                    {
+                        text: 'Friendly Name',
+                        sortable: false,
+                        value: 'friendly-name'
+                    },
+                    {
+                        text: 'Icon',
+                        sortable: false,
+                        value: 'icon'
+                    },
+                    {
+                        text: 'Username',
+                        sortable: false,
+                        value: 'username'
+                    },
+                    {
+                        text: 'Password',
+                        sortable: false,
+                        value: 'password'
+                    },
+                    {
+                        text: 'OTP',
+                        sortable: false,
+                        value: 'otp'
+                    },
+                    {
+                        text: 'OTP Type',
+                        sortable: false,
+                        value: 'otp-type'
+                    }
+                ],
+                secures: []
+            },
+            methods: {
+                decryptSecure: function () {
+                    const self = this
+                    url = '/apis/libraries?key=' + this.key
+                    axios.get(url)
+                        .then(function (response) {
+                            self.secures = response.data
+                        });
+                }
+            }
+        }
+    )
+
+    libraries.$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+</script>
