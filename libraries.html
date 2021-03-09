@@ -54,7 +54,10 @@
                 <v-container>
                     <v-text-field type="password" v-model="key" label="Key"
                         placeholder="Type your master password here"></v-text-field>
-                    <v-btn @click="decryptSecure">Dencrypt</v-btn>
+                    <v-btn @click="decryptSecure">
+                        <div v-if="key">Decrypt</div>
+                        <div v-else>Show</div>
+                    </v-btn>
                     <v-data-table :headers="tableHeaders" :items="secures"></v-data-table>
                 </v-container>
             </v-main>
