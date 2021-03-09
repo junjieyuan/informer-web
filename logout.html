@@ -77,7 +77,7 @@
             },
             methods: {
                 logout: function () {
-                    axios.post('/apis/logout').then(function (response) {
+                    axios.post('/api/logout').then(function (response) {
                         if (response.status === 200) {
                             window.location.href = "/index.html"
                         }

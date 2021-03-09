@@ -96,7 +96,7 @@
                         }
                     )
 
-                    axios.post('/apis/login', json_login_info).then(function (response) {
+                    axios.post('/api/login', json_login_info).then(function (response) {
                         if (response.status === 200) {
                             window.location.href = "/libraries.html"
                         }

@@ -137,7 +137,7 @@
             methods: {
                 decryptSecure: function () {
                     const self = this
-                    url = '/apis/libraries?key=' + this.key
+                    url = '/api/libraries?key=' + this.key
                     axios.get(url)
                         .then(function (response) {
                             self.secures = response.data
