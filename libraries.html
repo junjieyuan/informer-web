@@ -55,8 +55,8 @@
                     <v-text-field type="password" v-model="key" label="Key"
                         placeholder="Type your master password here"></v-text-field>
                     <v-btn @click="decryptSecure">
-                        <div v-if="key">Decrypt</div>
-                        <div v-else>Show</div>
+                        <div v-if="key">解密</div>
+                        <div v-else>刷新</div>
                     </v-btn>
                     <v-data-table :headers="tableHeaders" :items="secures"></v-data-table>
                 </v-container>
@@ -149,6 +149,9 @@
             }
         }
     )
+
+    //Show secures by default
+    libraries.decryptSecure()
 
     libraries.$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme: dark)').matches
 </script>
