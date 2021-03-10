@@ -58,6 +58,52 @@
                         <div v-if="key">解密</div>
                         <div v-else>刷新</div>
                     </v-btn>
+
+                    <v-dialog v-model="processingDialog" hide-overlay persistent>
+                        <v-card color="primary" dark>
+                            <v-card-text>
+                                请稍候
+                                <v-progress-linear indeterminate></v-progress-linear>
+                            </v-card-text>
+                        </v-card>
+                    </v-dialog>
+
+                    <v-btn @click="addForm = !addForm">添加密码</v-btn>
+                    <v-card-text v-if="addForm">
+                        <v-container>
+                            <v-row>
+                                <v-col>
+                                    <v-text-field v-model="tmpSecure.id" label="ID"></v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field v-model="tmpSecure.platform" label="Platform">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field v-model="tmpSecure.friendlyName" label="Friendly name">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    <v-text-field v-model="tmpSecure.username" label="Username">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field v-model="tmpSecure.password" label="Password" type="password">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col>
+                                    <v-text-field v-model="editedItem.key" label="Key" type="password"></v-text-field>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    <v-btn @click="addSecure">提交</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-container>
+                    </v-card-text>
                     <v-data-table :headers="tableHeaders" :items="secures"></v-data-table>
                 </v-container>
             </v-main>
@@ -92,6 +138,20 @@
                 drawer: null,
                 title: '文献馆',
                 key: '',
+                addForm: false,
+                processingDialog: false,
+
+                editedItem: {
+                    secure: [],
+                    key: ''
+                },
+                tmpSecure: {
+                    id: '',
+                    platform: '',
+                    friendlyName: '',
+                    username: '',
+                    password: '',
+                },
                 tableHeaders: [
                     {
                         text: 'ID',
@@ -140,6 +200,33 @@
                         .then(function (response) {
                             self.secures = response.data
                         });
+                },
+                addSecure: function () {
+                    let self = this
+                    this.processingDialog = true
+
+                    //Clear array
+                    this.editedItem.secure.length = 0
+                    this.editedItem.secure.push(this.tmpSecure)
+                    this.cleartmpSecure()
+                    const json_add_info = JSON.stringify(this.$data.editedItem)
+                    axios.post('/api/libraries/add', json_add_info).then(
+                        function (response) {
+                            self.processingDialog = false
+                            if (response.status === 200) {
+                                alert('添加成功')
+                            } else {
+                                alert('添加失败')
+                            }
+                        }
+                    )
+                },
+                cleartmpSecure: function () {
+                    this.tmpSecure.id = ''
+                    this.tmpSecure.platform = ''
+                    this.tmpSecure.friendlyName = ''
+                    this.tmpSecure.username = ''
+                    this.tmpSecure.password = ''
                 }
             }
         }
