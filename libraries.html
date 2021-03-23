@@ -313,7 +313,7 @@
                         Object.keys(response.data).map(
                             (key) => {
                                 self.secures.push({
-                                    primaryKey: responseData[key].primaryKey,
+                                    primaryKey: key,
                                     id: responseData[key].id,
                                     platform: responseData[key].platform,
                                     friendlyName: responseData[key].friendlyName,
