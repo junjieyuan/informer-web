@@ -56,161 +56,50 @@
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-spacer></v-spacer>
-                                <v-dialog v-model="dialog.decrypt">
+                                <v-dialog v-model="dialog.inputKey">
                                     <template v-slot:activator="{ on, attrs }">
                                         <v-btn v-bind="attrs" v-on="on">
                                             解密
                                         </v-btn>
                                     </template>
-                        <v-card>
-                            <v-card-title>
-                                <span>解密</span>
-                            </v-card-title>
+                                    <v-card>
+                                        <v-card-title>
+                                            <span>解密</span>
+                                        </v-card-title>
 
-                            <v-card-text>
-                                <span>解密将持续到页面刷新</span>
-                                <v-container>
-                                    <v-text-field v-model="key" type="password" label="key"></v-text-field>
-                                </v-container>
-                            </v-card-text>
+                                        <v-card-text>
+                                            <span>解密将持续到页面刷新</span>
+                                            <v-container>
+                                                <v-text-field v-model="key" type="password" label="key"></v-text-field>
+                                            </v-container>
+                                        </v-card-text>
 
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn text @click="closeDecryptDialog">
-                                    取消
-                                </v-btn>
-                                <v-btn color="blue darken-1" text @click="decryptSecure">
-                                    确定
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                        </v-dialog>
-                        <v-dialog v-model="dialog.add">
-                            <template v-slot:activator="{ on, attrs }">
-                                        <v-btn color="primary" v-bind="attrs" v-on="on">
-                                            添加密码
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text @click="closeInputKeyDialog">
+                                                取消
+                                            </v-btn>
+                                            <v-btn color="blue darken-1" text @click="fetchSecure">
+                                                确定
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+
+                                    <template v-slot:item.actions="{ item }">
+                                        <v-icon small class="mr-2" @click="beforeUpdateSecure(item)">
+                                            mdi-pencil
+                                        </v-icon>
+                                        <v-icon small @click="deleteItem(item)">
+                                            mdi-delete
+                                        </v-icon>
+                                    </template>
+                                    <template v-slot:no-data>
+                                        <v-btn color="primary" @click="fetchSecure">
+                                            刷新
                                         </v-btn>
                                     </template>
-                            <v-card>
-                                <v-card-title>
-                                    <span>添加密码</span>
-                                </v-card-title>
-
-                                <v-card-text>
-                                    <v-container>
-                                        <v-row>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.id" label="ID">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.platform" label="Platform">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.friendlyName" label="Friendly Name">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.username" label="Username">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.password" label="Password">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.key" label="Key" type="password">
-                                                </v-text-field>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                                </v-card-text>
-
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text @click="closeAddDialog">
-                                        取消
-                                    </v-btn>
-                                    <v-btn color="blue darken-1" text @click="addSecure">
-                                        确定
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                        <v-dialog v-model="dialog.update">
-                            <v-card>
-                                <v-card-title>
-                                    <span>修改密码</span>
-                                </v-card-title>
-
-                                <v-card-text>
-                                    <v-container>
-                                        <v-row>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.id" label="ID">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.platform" label="Platform">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.friendlyName" label="Friendly Name">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.username" label="Username">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="tmpSecure.password" label="Password" type="password">
-                                                </v-text-field>
-                                            </v-col>
-                                            <v-col cols="12" sm="6" md="4">
-                                                <v-text-field v-model="editedItem.key" label="Key" type="password">
-                                                </v-text-field>
-                                            </v-col>
-                                        </v-row>
-                                    </v-container>
-                                </v-card-text>
-
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text @click="closeUpdateDialog">
-                                        取消
-                                    </v-btn>
-                                    <v-btn color="blue darken-1" text @click="updateSecure">
-                                        确定
-                                    </v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                        <v-dialog v-model="dialog.delete">
-                            <v-card>
-                                <v-card-title class="headline">此操作不可撤销，是否删除？</v-card-title>
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn text @click="closeDelete">取消</v-btn>
-                                    <v-btn color="blue darken-1" text @click="deleteItemConfirm">确定</v-btn>
-                                    <v-spacer></v-spacer>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-                        </v-toolbar>
-                        </template>
-                        <template v-slot:item.actions="{ item }">
-                            <v-icon small class="mr-2" @click="beforeUpdateSecure(item)">
-                                mdi-pencil
-                            </v-icon>
-                            <v-icon small @click="deleteItem(item)">
-                                mdi-delete
-                            </v-icon>
-                        </template>
-                        <template v-slot:no-data>
-                            <v-btn color="primary" @click="decryptSecure">
-                                刷新
-                            </v-btn>
+                                </v-dialog>
+                            </v-toolbar>
                         </template>
                     </v-data-table>
                 </v-container>
@@ -225,6 +114,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 <script>
+    //Redirect to login page if doesn't logged in
     axios.interceptors.response.use(
         response => {
             return response
@@ -242,30 +132,18 @@
         el: '#libraries',
         vuetify: new Vuetify(),
         data: {
-            drawer: null,
             title: '保存的密码',
+            drawer: null,
             key: '',
-            decrypted: false,
+            secures: [],
 
             dialog: {
                 add: false,
                 delete: false,
-                decrypt: false,
+                inputKey: false,
                 update: false
             },
-            addForm: false,
 
-            editedItem: {
-                secure: [],
-                key: ''
-            },
-            tmpSecure: {
-                id: '',
-                platform: '',
-                friendlyName: '',
-                username: '',
-                password: '',
-            },
             tableHeaders: [{
                 text: 'ID',
                 align: 'start',
@@ -299,159 +177,51 @@
                 text: 'Actions',
                 value: 'actions',
                 sortable: false
-            }, ],
-            secures: []
+            },]
         },
         methods: {
-            decryptSecure: function() {
+            fetchSecure: function () {
+                const url = '/api/libraries?key=' + this.key
+
+                if (this.key.length == 0) {
+                    this.openInputKeyDialog()
+                    return
+                } else {
+                    this.closeInputKeyDialog()
+                }
+
+                this.secures.length = 0
+
                 const self = this
-                url = '/api/libraries?key=' + this.key
                 axios.get(url)
-                    .then(function(response) {
-                        self.secures.length = 0
-                        responseData = response.data
-                        Object.keys(response.data).map(
-                            (key) => {
-                                self.secures.push({
-                                    primaryKey: key,
-                                    id: responseData[key].id,
-                                    platform: responseData[key].platform,
-                                    friendlyName: responseData[key].friendlyName,
-                                    username: responseData[key].username,
-                                    password: responseData[key].password,
-                                    otp: responseData[key].otp,
-                                    otpType: responseData[key].otyType
-                                })
-                            }
+                    .then(function (response) {
+                        let responseData = response.data
+
+                        Object.keys(response.data).map((key) => {
+                            self.secures.push({
+                                primaryKey: key,
+                                id: responseData[key].id,
+                                platform: responseData[key].platform,
+                                friendlyName: responseData[key].friendlyName,
+                                username: responseData[key].username,
+                                password: responseData[key].password,
+                                otp: responseData[key].otp,
+                                otpType: responseData[key].otyType
+                            })
+                        }
                         )
                     })
-
-                if (this.key.length > 0) {
-                    this.decrypted = true
-                }
-
-                this.closeDecryptDialog()
             },
-            addSecure: function() {
-                let self = this
-
-                //Clear array
-                this.editedItem.secure.length = 0
-
-                this.editedItem.secure.push(this.tmpSecure)
-
-                const json_add_info = JSON.stringify(this.$data.editedItem)
-                axios.post('/api/libraries/add', json_add_info).then(
-                    function(response) {
-                        if (response.status === 200) {
-                            alert('添加成功')
-                            self.decryptSecure()
-                        } else {
-                            alert('添加失败')
-                        }
-                    }
-                )
-
-                this.clearTmpSecure()
-                this.decryptSecure()
-                this.closeAddDialog()
+            openInputKeyDialog: function () {
+                this.dialog.inputKey = true
             },
-            clearTmpSecure: function() {
-                this.tmpSecure.id = ''
-                this.tmpSecure.platform = ''
-                this.tmpSecure.friendlyName = ''
-                this.tmpSecure.username = ''
-                this.tmpSecure.password = ''
-            },
-            closeAddDialog: function() {
-                this.dialog.add = false
-            },
-            closeDelete: function() {
-                this.dialog.delete = false
-            },
-            beforeUpdateSecure: function(item) {
-                this.dialog.update = true
-                let editArray = [item]
-
-                this.tmpSecure.id = item.id
-                this.tmpSecure.platform = item.platform
-                this.tmpSecure.friendlyName = item.friendlyName
-                this.tmpSecure.username = item.username
-                if (this.decrypted === true) {
-                    this.tmpSecure.password = item.password
-                } else {
-                    this.tmpSecure.password = ''
-                }
-                this.tmpSecure.key = this.key
-                editArray.push(this.tmpSecure)
-
-                // this.editedItem.secure.push(item)
-                // this.editedItem.secure.push(tmpSecure)
-                this.editedItem.secure = editArray
-                this.editedItem.key = this.tmpSecure.key
-                console.log('before update')
-                console.log(this.editedItem)
-            },
-            updateSecure: function() {
-                console.log(this.editedItem)
-                const json_update_info = JSON.stringify(this.editedItem)
-                axios.post("/api/libraries/update", json_update_info).then(
-                    function(response) {
-                        if (response.status === 200) {
-                            alert('更新成功')
-                        } else {
-                            alert('更新失败')
-                        }
-                    }
-                )
-
-                this.editedItem.secure.length = 0
-                this.closeUpdateDialog()
-                this.decryptSecure()
-            },
-            deleteItem: function(item) {
-                //TODO
-                // this.editedItem = item
-                this.editedItem.secure.push(item)
-
-                this.dialog.delete = true
-            },
-            deleteItemConfirm: function() {
-                let self = this
-
-                // let deleteArray = [
-                //     this.editedItem
-                // ]
-                let deleteArray = [
-                    this.editedItem.secure[0]
-                ]
-
-                const json_remove_info = JSON.stringify(deleteArray)
-                axios.post('/api/libraries/remove', json_remove_info).then(
-                    function(response) {
-                        if (response.status === 200) {
-                            alert('删除成功')
-                            self.decryptSecure()
-                        } else {
-                            alert('删除失败')
-                        }
-                    }
-                )
-
-                this.decryptSecure()
-                this.closeDelete()
-            },
-            closeDecryptDialog: function() {
-                this.dialog.decrypt = false
-            },
-            closeUpdateDialog: function() {
-                this.dialog.update = false
-            },
+            closeInputKeyDialog: function () {
+                this.dialog.inputKey = false
+            }
         }
     })
 
-    //Show secures by default
-    libraries.decryptSecure()
-
     libraries.$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+
+    libraries.fetchSecure()
 </script>
