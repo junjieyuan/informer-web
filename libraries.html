@@ -302,21 +302,27 @@
             }, ],
             secures: []
         },
-        computed: {
-            primaryKey() {
-                return this.secures.map((secure, index) => ({
-                    id: index,
-                    ...secure
-                }))
-            }
-        },
         methods: {
             decryptSecure: function() {
                 const self = this
                 url = '/api/libraries?key=' + this.key
                 axios.get(url)
                     .then(function(response) {
-                        self.secures = response.data
+                        responseData = response.data
+                        Object.keys(response.data).map(
+                            (key) => {
+                                self.secures.push({
+                                    primaryKey: responseData[key].primaryKey,
+                                    id: responseData[key].id,
+                                    platform: responseData[key].platform,
+                                    friendlyName: responseData[key].friendlyName,
+                                    username: responseData[key].username,
+                                    password: responseData[key].password,
+                                    otp: responseData[key].otp,
+                                    otpType: responseData[key].otyType
+                                })
+                            }
+                        )
                     })
 
                 if (this.key.length > 0) {
