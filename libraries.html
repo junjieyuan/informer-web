@@ -308,6 +308,7 @@
                 url = '/api/libraries?key=' + this.key
                 axios.get(url)
                     .then(function(response) {
+                        self.secures.length = 0
                         responseData = response.data
                         Object.keys(response.data).map(
                             (key) => {
