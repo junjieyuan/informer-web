@@ -83,6 +83,63 @@
                                             </v-btn>
                                         </v-card-actions>
                                     </v-card>
+                                </v-dialog>
+
+
+                                <v-dialog v-model="dialog.add">
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-btn color="primary" v-bind="attrs" v-on="on">
+                                            添加密码
+                                        </v-btn>
+                                    </template>
+                                    <v-card>
+                                        <v-card-title>
+                                            <span>添加密码</span>
+                                        </v-card-title>
+
+                                        <v-card-text>
+                                            <v-container>
+                                                <v-row>
+                                                    <v-col cols="12" sm="6" md="4">
+                                                        <v-text-field v-model="addedSecure.id" label="ID">
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="4">
+                                                        <v-text-field v-model="addedSecure.platform" label="Platform">
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="4">
+                                                        <v-text-field v-model="addedSecure.friendlyName"
+                                                            label="Friendly Name">
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="4">
+                                                        <v-text-field v-model="addedSecure.username" label="Username">
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="4">
+                                                        <v-text-field v-model="addedSecure.password" label="Password" type="password">
+                                                        </v-text-field>
+                                                    </v-col>
+                                                    <v-col cols="12" sm="6" md="4">
+                                                        <v-text-field v-model="key" label="Key" type="password">
+                                                        </v-text-field>
+                                                    </v-col>
+                                                </v-row>
+                                            </v-container>
+                                        </v-card-text>
+
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn text @click="closeAddDialog">
+                                                取消
+                                            </v-btn>
+                                            <v-btn color="blue darken-1" text @click="addSecure">
+                                                确定
+                                            </v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-dialog>
                             </v-toolbar>
 
                             <v-dialog v-model="dialog.delete">
@@ -142,6 +199,15 @@
             secures: [],
 
             deleteArray: [],
+            addedSecure: {
+                id: '',
+                platform: '',
+                friendlyName: '',
+                username: '',
+                password: '',
+                otp: '',
+                otpType: ''
+            },
 
             dialog: {
                 add: false,
@@ -186,6 +252,32 @@
             },]
         },
         methods: {
+            addSecure: function(item) {
+                let addedSecureMap = {
+                    secure: [this.addedSecure],
+                    key: this.key
+                }
+                let addedSecureJson = JSON.stringify(addedSecureMap)
+                console.log(addedSecureJson)
+                axios.post('/api/libraries/add', addedSecureJson).then(
+                    function (response) {
+                        if (response.status == 200) {
+                            alert('添加成功')
+                        } else {
+                            alert('添加失败')
+                        }
+                    }
+                )
+
+                this.closeAddDialog()
+                this.fetchSecure()
+            },
+            openAddDialog: function() {
+                this.dialog.add = true
+            },
+            closeAddDialog: function() {
+                this.dialog.add = false
+            },
             deleteSecure: function (item) {
                 this.deleteArray.push(item.primaryKey)
 
