@@ -153,9 +153,58 @@
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
+
+                            <v-dialog v-model="dialog.update">
+                                <v-card>
+                                    <v-card-title>
+                                        <span>修改密码</span>
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                        <v-container>
+                                            <v-row>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="updatedSecure.id" label="ID">
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="updatedSecure.platform" label="Platform">
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="updatedSecure.friendlyName" label="Friendly Name">
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="updatedSecure.username" label="Username">
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="updatedSecure.password" label="Password" type="password">
+                                                    </v-text-field>
+                                                </v-col>
+                                                <v-col cols="12" sm="6" md="4">
+                                                    <v-text-field v-model="key" label="Key" type="password">
+                                                    </v-text-field>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                    </v-card-text>
+
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn text @click="closeUpdateDialog">
+                                            取消
+                                        </v-btn>
+                                        <v-btn color="blue darken-1" text @click="updateSecureConfirm">
+                                            确定
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </template>
                         <template v-slot:item.actions="{ item }">
-                            <v-icon small class="mr-2" @click="beforeUpdateSecure(item)">
+                            <v-icon small class="mr-2" @click="updateSecure(item)">
                                 mdi-pencil
                             </v-icon>
                             <v-icon small @click="deleteSecure(item)">
@@ -198,8 +247,18 @@
             key: '',
             secures: [],
 
-            deleteArray: [],
             addedSecure: {
+                id: '',
+                platform: '',
+                friendlyName: '',
+                username: '',
+                password: '',
+                otp: '',
+                otpType: ''
+            },
+            deleteArray: [],
+            updatedSecurePrimaryKey: '',
+            updatedSecure: {
                 id: '',
                 platform: '',
                 friendlyName: '',
@@ -278,6 +337,7 @@
             closeAddDialog: function() {
                 this.dialog.add = false
             },
+
             deleteSecure: function (item) {
                 this.deleteArray.push(item.primaryKey)
 
@@ -308,6 +368,38 @@
             },
             closeDeleteConfirmDialog: function () {
                 this.dialog.delete = false
+            },
+
+            updateSecure: function (item) {
+                this.updatedSecurePrimaryKey = item.primaryKey
+                this.updatedSecure = item
+                this.openUpdateDialog()
+            },
+            updateSecureConfirm: function () {
+                let updatedSecureMap = {
+                    primaryKey: this.updatedSecurePrimaryKey,
+                    key: this.key,
+                    secure: [this.updatedSecure]
+                }
+                let updatedSecureJson = JSON.stringify(updatedSecureMap)
+                axios.post('/api/libraries/update', updatedSecureJson).then(
+                    function (response) {
+                        if (response.status == 200) {
+                            alert('更新成功')
+                        } else {
+                            alert('更新失败')
+                        }
+                    }
+                )
+
+                this.closeUpdateDialog()
+                this.fetchSecure()
+            },
+            openUpdateDialog: function () {
+                this.dialog.update = true
+            },
+            closeUpdateDialog: function () {
+                this.dialog.update = false
             },
 
             fetchSecure: function () {
