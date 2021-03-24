@@ -317,7 +317,6 @@
                     key: this.key
                 }
                 let addedSecureJson = JSON.stringify(addedSecureMap)
-                console.log(addedSecureJson)
                 axios.post('/api/libraries/add', addedSecureJson).then(
                     function (response) {
                         if (response.status == 200) {
@@ -347,9 +346,7 @@
                 let deleteArrayMap = {
                     primaryKey: this.deleteArray
                 }
-                console.log(deleteArrayMap)
                 let deleteArrayJson = JSON.stringify(deleteArrayMap)
-                console.log(deleteArrayJson)
                 axios.post('/api/libraries/remove', deleteArrayJson).then(
                     function (response) {
                         if (response.status == 200) {
