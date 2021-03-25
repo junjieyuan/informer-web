@@ -118,7 +118,8 @@
                                                         </v-text-field>
                                                     </v-col>
                                                     <v-col cols="12" sm="6" md="4">
-                                                        <v-text-field v-model="addedSecure.password" label="Password" type="password">
+                                                        <v-text-field v-model="addedSecure.password" label="Password"
+                                                            type="password">
                                                         </v-text-field>
                                                     </v-col>
                                                     <v-col cols="12" sm="6" md="4">
@@ -172,7 +173,8 @@
                                                     </v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="updatedSecure.friendlyName" label="Friendly Name">
+                                                    <v-text-field v-model="updatedSecure.friendlyName"
+                                                        label="Friendly Name">
                                                     </v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
@@ -180,7 +182,8 @@
                                                     </v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
-                                                    <v-text-field v-model="updatedSecure.password" label="Password" type="password">
+                                                    <v-text-field v-model="updatedSecure.password" label="Password"
+                                                        type="password">
                                                     </v-text-field>
                                                 </v-col>
                                                 <v-col cols="12" sm="6" md="4">
@@ -311,7 +314,7 @@
             },]
         },
         methods: {
-            addSecure: function(item) {
+            addSecure: function (item) {
                 let addedSecureMap = {
                     secure: [this.addedSecure],
                     key: this.key
@@ -330,10 +333,10 @@
                 this.closeAddDialog()
                 this.fetchSecure()
             },
-            openAddDialog: function() {
+            openAddDialog: function () {
                 this.dialog.add = true
             },
-            closeAddDialog: function() {
+            closeAddDialog: function () {
                 this.dialog.add = false
             },
 
