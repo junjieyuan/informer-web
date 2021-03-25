@@ -53,6 +53,20 @@
             <v-main>
                 <v-container>
                     <v-data-table :headers="tableHeaders" :items="secures" item-key="primaryKey">
+                        <!-- Custom password and otp colume -->
+                        <template v-slot:item.password="{ item }">
+                            <v-text-field name="password" :value="item.password" readonly
+                                :append-icon="item.showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                                @click:append="() => (item.showPassword = !item.showPassword)"
+                                :type="item.showPassword ? 'text' : 'password'"></v-text-field>
+                        </template>
+                        <template v-slot:item.otp="{ item }">
+                            <v-text-field name="otp" :value="item.otp" readonly
+                                :append-icon="item.showOtp ? 'mdi-eye-off' : 'mdi-eye'"
+                                @click:append="() => (item.showOtp = !item.showOtp)"
+                                :type="item.showOtp ? 'text' : 'password'"></v-text-field>
+                        </template>
+
                         <template v-slot:top>
                             <v-toolbar flat>
                                 <v-spacer></v-spacer>
@@ -429,6 +443,9 @@
                                 password: responseData[key].password,
                                 otp: responseData[key].otp,
                                 otpType: responseData[key].otpType,
+
+                                showPassword: '',
+                                showOtp: ''
                             })
                         }
                         )
