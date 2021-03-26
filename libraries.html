@@ -52,7 +52,7 @@
 
             <v-main>
                 <v-container>
-                    <v-data-table :headers="tableHeaders" :items="secures" item-key="primaryKey">
+                    <v-data-table :headers="tableHeaders" :items="secures" item-key="primaryKey" :search="search">
                         <!-- Custom password and otp colume -->
                         <template v-slot:item.password="{ item }">
                             <v-text-field name="password" :value="item.password" readonly
@@ -98,7 +98,6 @@
                                         </v-card-actions>
                                     </v-card>
                                 </v-dialog>
-
 
                                 <v-dialog v-model="dialog.add">
                                     <template v-slot:activator="{ on, attrs }">
@@ -156,6 +155,8 @@
                                     </v-card>
                                 </v-dialog>
                             </v-toolbar>
+
+                            <v-text-field v-model="search" label="搜索" class="mx-4"></v-text-field>
 
                             <v-dialog v-model="dialog.delete">
                                 <v-card>
@@ -262,11 +263,13 @@
             title: '保存的密码',
             drawer: null,
             key: '',
+            search: '',
             secures: [],
 
             addedSecure: {
                 id: '',
-                platform: '',
+                //domain-name by default
+                platform: 'domain-name',
                 friendlyName: '',
                 username: '',
                 password: '',
