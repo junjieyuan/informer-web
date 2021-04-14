@@ -1,0 +1,14 @@
+{
+    "name": "Informer",
+    "short_name": "Informer",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "/outline_password_black_48.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        }
+    ]
+}
