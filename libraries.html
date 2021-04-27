@@ -225,6 +225,9 @@
                             </v-dialog>
                         </template>
                         <template v-slot:item.actions="{ item }">
+                            <v-icon small class="mr-2" @click="generateOtp(item)">
+                                mdi-eye
+                            </v-icon>
                             <v-icon small class="mr-2" @click="updateSecure(item)">
                                 mdi-pencil
                             </v-icon>
@@ -464,6 +467,12 @@
             },
             closeInputKeyDialog: function () {
                 this.dialog.inputKey = false
+            },
+            generateOtp: function(item) {
+                const url = '/api/library/' + item.primaryKey + '/otp?key=' + this.key
+                axios.get(url).then(function(response) {
+                    alert(response.data['passCode'])
+                })
             }
         }
     })
