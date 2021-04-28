@@ -371,11 +371,10 @@
                 this.openDeleteConfirmDialog()
             },
             deleteSecureConfirm: function () {
-                let deleteArrayMap = {
-                    primaryKey: this.deleteArray
-                }
-                let deleteArrayJson = JSON.stringify(deleteArrayMap)
-                axios.post('/api/libraries/remove', deleteArrayJson).then(
+                const primaryKey = this.deleteArray[0]
+                const deleteUrl = '/api/library/' + primaryKey
+
+                axios.delete(deleteUrl).then(
                     function (response) {
                         if (response.status == 200) {
                             alert('删除成功')
