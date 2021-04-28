@@ -400,13 +400,13 @@
                 this.openUpdateDialog()
             },
             updateSecureConfirm: function () {
+                let putUrl = '/api/library/' + this.updatedSecurePrimaryKey
                 let updatedSecureMap = {
-                    primaryKey: this.updatedSecurePrimaryKey,
                     key: this.key,
                     secure: [this.updatedSecure]
                 }
                 let updatedSecureJson = JSON.stringify(updatedSecureMap)
-                axios.post('/api/libraries/update', updatedSecureJson).then(
+                axios.put(putUrl, updatedSecureJson).then(
                     function (response) {
                         if (response.status == 200) {
                             alert('更新成功')
