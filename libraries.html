@@ -345,7 +345,7 @@
                     key: this.key
                 }
                 let addedSecureJson = JSON.stringify(addedSecureMap)
-                axios.post('/api/libraries/add', addedSecureJson).then(
+                axios.post('/api/library', addedSecureJson).then(
                     function (response) {
                         if (response.status == 200) {
                             alert('添加成功')
