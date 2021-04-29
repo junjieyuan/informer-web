@@ -9,6 +9,7 @@ import ChangePassword from "@/components/ChangePassword";
 import ChangePrimaryPassword from "@/components/ChangePrimaryPassword";
 import Library from "@/components/Library";
 import GeneratePassword from "@/components/GeneratePassword";
+import './registerServiceWorker'
 
 const routes = [
     {path: '/', component: HomepageContent},
