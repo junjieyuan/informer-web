@@ -4,10 +4,12 @@ import vuetify from './plugins/vuetify'
 import VueRouter from 'vue-router'
 import HomepageContent from "@/components/HomepageContent";
 import Login from '@/components/Login'
+import Logout from '@/components/Logout'
 
 const routes = [
     {path: '/', component: HomepageContent},
     {path: '/login', component: Login},
+    {path: '/logout', component: Logout},
 ]
 const router = new VueRouter({
         routes
