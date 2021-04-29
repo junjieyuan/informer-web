@@ -21,6 +21,7 @@ export default {
   methods: {
     login: function () {
       const json_login_info = JSON.stringify(this.$data, this.loginField);
+      const self = this
 
       axios.interceptors.response.use(
           response => {
@@ -36,7 +37,7 @@ export default {
 
       axios.post('/api/login', json_login_info).then(function (response) {
         if (response.status === 200) {
-          window.location.href = "/libraries.html"
+          self.$router.push('/library')
         }
       })
     }
