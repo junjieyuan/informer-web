@@ -21,7 +21,6 @@ const routes = [
     {path: '/generate-password', component: GeneratePassword}
 ]
 const router = new VueRouter({
-        mode: 'history',
         routes: routes
     }
 )
