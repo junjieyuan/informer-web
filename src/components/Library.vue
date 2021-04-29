@@ -189,6 +189,9 @@ import axios from "axios";
 
 export default {
   name: "Library",
+  created() {
+    this.fetchSecure()
+  },
   data: () => ({
     key: '',
     search: '',
