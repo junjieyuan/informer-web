@@ -159,6 +159,15 @@
                     </v-text-field>
                   </v-col>
                   <v-col cols="12" md="4" sm="6">
+                    <v-text-field v-model="updatedSecure.otp" label="OTP"
+                                  type="password">
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4" sm="6">
+                    <v-text-field v-model="updatedSecure.otpType" label="OTP Type">
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4" sm="6">
                     <v-text-field v-model="key" label="Key" type="password">
                     </v-text-field>
                   </v-col>
