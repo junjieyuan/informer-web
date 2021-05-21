@@ -31,7 +31,7 @@ export default {
           error => {
             if (error.response.status === 403) {
               alert('未登录，将跳转到登录页面')
-              window.location.href = "/login.html"
+              self.$router.push('/login')
             }
           }
       )
