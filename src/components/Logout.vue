@@ -13,9 +13,11 @@ export default {
   name: "Logout",
   methods: {
     logout: function () {
+      const self = this
+
       axios.post('/api/logout').then(function (response) {
         if (response.status === 200) {
-          window.location.href = "/index.html"
+          self.$router.push('/')
         }
       })
     }

@@ -22,6 +22,7 @@ export default {
   methods: {
     changePassword: function () {
       const json_login_info = JSON.stringify(this.$data);
+      const self = this
 
       axios.interceptors.response.use(
           response => {
@@ -38,7 +39,7 @@ export default {
       axios.put('/api/change-password', json_login_info).then(function (response) {
         if (response.status === 200) {
           alert('成功')
-          window.location.href = "/login.html"
+          self.$router.push('/login')
         }
       })
     }
