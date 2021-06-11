@@ -31,7 +31,7 @@
 
               <v-card-text>
                 <v-container>
-                  <v-text-field v-model="key" label="key" type="password"></v-text-field>
+                  <v-text-field v-model="key" label="key" type="password" autocomplete="current-password"></v-text-field>
                 </v-container>
               </v-card-text>
 

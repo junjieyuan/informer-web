@@ -2,7 +2,7 @@
   <v-container>
     <v-form>
       <v-text-field v-model="username" label="Username" required></v-text-field>
-      <v-text-field v-model="password" label="Password" required type="password"></v-text-field>
+      <v-text-field v-model="password" label="Password" required type="password" autocomplete="current-password"></v-text-field>
       <v-btn @click="login">登录</v-btn>
     </v-form>
   </v-container>

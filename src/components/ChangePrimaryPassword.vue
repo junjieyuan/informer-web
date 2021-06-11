@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <v-form>
-      <v-text-field v-model="oldPassword" label="当前密码" required type="password"></v-text-field>
-      <v-text-field v-model="newPassword" label="新密码" required type="password"></v-text-field>
-      <v-text-field v-model="confirmPassword" label="确认新密码" required type="password"></v-text-field>
+      <v-text-field v-model="oldPassword" label="当前密码" required type="password" autocomplete="current-password"></v-text-field>
+      <v-text-field v-model="newPassword" label="新密码" required type="password" autocomplete="new-password"></v-text-field>
+      <v-text-field v-model="confirmPassword" label="确认新密码" required type="password" autocomplete="new-password"></v-text-field>
       <v-btn label="Change Password" @click="changeMasterPassword">修改主密码</v-btn>
     </v-form>
   </v-container>
